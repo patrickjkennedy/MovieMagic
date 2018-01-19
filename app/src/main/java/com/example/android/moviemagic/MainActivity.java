@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity{
         layoutManager = new GridLayoutManager(MainActivity.this, 3);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        MovieAdapter movieAdapter = new MovieAdapter(MainActivity.this, mThumbIds);
-        recyclerView.setAdapter(movieAdapter);
+        DataAdapter dataAdapter = new DataAdapter(MainActivity.this, mThumbIds);
+        recyclerView.setAdapter(dataAdapter);
     }
 
 }
