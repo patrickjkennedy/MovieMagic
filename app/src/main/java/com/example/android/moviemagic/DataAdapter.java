@@ -9,18 +9,21 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by pkennedy on 1/18/18.
  */
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
 
-    private Context context;
+    private Context mContext;
 
-    private String[] mPosterPaths;
+    private ArrayList<Movie> mMovies = new ArrayList<>();
 
-    public DataAdapter(Context context) {
-        this.context = context;
+    public DataAdapter(Context context, ArrayList<Movie> movies) {
+        this.mContext = context;
+        this.mMovies = movies;
     }
 
     @Override
@@ -33,15 +36,15 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
 
     @Override
     public void onBindViewHolder(dataHolder holder, int position) {
-        Picasso.with(context)
-                .load(mPosterPaths[position])
+        Picasso.with(mContext)
+                .load(mMovies.get(position).getmPosterPath())
                 .into(holder.img);
     }
 
     @Override
     public int getItemCount() {
-        if (null == mPosterPaths) return 0;
-        return mPosterPaths.length;
+        if (null == mMovies) return 0;
+        return mMovies.size();
     }
 
     public static class dataHolder extends RecyclerView.ViewHolder{
@@ -53,8 +56,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
         }
     }
 
-    public void setPosterPaths(String[] posterPaths) {
-        mPosterPaths = posterPaths;
+    public void setMovies(ArrayList<Movie> movies) {
+        mMovies = movies;
         notifyDataSetChanged();
     }
 }
