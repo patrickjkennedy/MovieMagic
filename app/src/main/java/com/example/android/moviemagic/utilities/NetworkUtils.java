@@ -19,27 +19,30 @@ public final class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static final String MOVIEDB_BASE_URL =
-            "https://api.themoviedb.org/3/discover/movie";
+            "https://api.themoviedb.org/3/movie";
+
+    private static final String MOST_POPULAR_PATH =
+            "popular";
+
+    private static final String TOP_RATED_PATH =
+            "top_rated";
 
     // Parameters for the API
 
     private static final String apiKey = "";
 
-    final static String SORT_PARAM = "sort_by";
-
     final static String APIKEY_PARAM = "api_key";
 
 
     /**
-     * Builds the URL to fetch data from themoviedb.org API.
+     * Builds the URL to fetch the most popular movies from themoviedb.org API.
      *
-     * @param sortBy determines how to sort the results (e.g. popularity.desc for descending popularity)
      * @return The URL to query the server
      */
 
-    public static URL buildUrl(String sortBy) {
+    public static URL buildPopularUrl() {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
-                .appendQueryParameter(SORT_PARAM, sortBy)
+                .appendPath(MOST_POPULAR_PATH)
                 .appendQueryParameter(APIKEY_PARAM, apiKey)
                 .build();
 
@@ -50,6 +53,30 @@ public final class NetworkUtils {
             e.printStackTrace();
         }
 
+        Log.v("NetworkUtils", "Popular URL: " + url);
+        return url;
+    }
+
+    /**
+     * Builds the URL to fetch the top rated movies from themoviedb.org API.
+     *
+     * @return The URL to query the server
+     */
+
+    public static URL buildTopRatedUrl() {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
+                .appendPath(TOP_RATED_PATH)
+                .appendQueryParameter(APIKEY_PARAM, apiKey)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Log.v("NetworkUtils", "Top Rated URL: " + url);
         return url;
     }
 
