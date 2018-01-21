@@ -17,11 +17,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
 
     private Context context;
 
-    private int images[];
+    private String[] mPosterPaths;
 
-    public DataAdapter(Context context, int[] images) {
+    public DataAdapter(Context context) {
         this.context = context;
-        this.images = images;
     }
 
     @Override
@@ -35,13 +34,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
     @Override
     public void onBindViewHolder(dataHolder holder, int position) {
         Picasso.with(context)
-                .load(images[position])
+                .load(mPosterPaths[position])
                 .into(holder.img);
     }
 
     @Override
     public int getItemCount() {
-        return images.length;
+        if (null == mPosterPaths) return 0;
+        return mPosterPaths.length;
     }
 
     public static class dataHolder extends RecyclerView.ViewHolder{
@@ -51,5 +51,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
             img = (ImageView) itemView.findViewById(R.id.iv_movie_image);
 
         }
+    }
+
+    public void setPosterPaths(String[] posterPaths) {
+        mPosterPaths = posterPaths;
+        notifyDataSetChanged();
     }
 }
