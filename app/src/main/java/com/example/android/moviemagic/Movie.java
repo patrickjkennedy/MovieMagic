@@ -1,10 +1,12 @@
 package com.example.android.moviemagic;
 
+import java.io.Serializable;
+
 /**
  * Created by pkennedy on 1/21/18.
  */
 
-public class Movie {
+public class Movie implements Serializable{
 
     private String mTitle, mReleaseDate, mPosterPath, mRating, mSynopsis;
 

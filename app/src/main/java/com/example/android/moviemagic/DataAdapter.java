@@ -21,9 +21,23 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
 
     private ArrayList<Movie> mMovies = new ArrayList<>();
 
-    public DataAdapter(Context context, ArrayList<Movie> movies) {
+    /*
+    * An on-click handler that we've defined to make it easy for an Activity to interface with
+    * our RecyclerView
+    */
+
+    private final DataAdapterOnClickHandler mClickHandler;
+
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface DataAdapterOnClickHandler {
+        void onClick(Movie movie);
+    }
+
+    public DataAdapter(DataAdapterOnClickHandler clickHandler, Context context) {
+        this.mClickHandler = clickHandler;
         this.mContext = context;
-        this.mMovies = movies;
     }
 
     @Override
@@ -47,12 +61,25 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
         return mMovies.size();
     }
 
-    public static class dataHolder extends RecyclerView.ViewHolder{
+    public class dataHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         ImageView img;
         public dataHolder(View itemView) {
             super(itemView);
             img = (ImageView) itemView.findViewById(R.id.iv_movie_image);
+            itemView.setOnClickListener(this);
+        }
 
+        /**
+         * This gets called by the child views during a click.
+         *
+         * @param view - the view that was clicked
+         */
+        @Override
+        public void onClick(View view) {
+            int adapterPosition = getAdapterPosition();
+            Movie movie = mMovies.get(getAdapterPosition());
+            mClickHandler.onClick(movie);
         }
     }
 
