@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity{
     private void loadMovieData(){
         showMoviePosterDataView();
 
-        String sortBy = "popularity.desc";
-        new FetchMovieDataTask().execute(sortBy);
+        new FetchMovieDataTask().execute();
     }
 
     /**
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
         errorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
-    public class FetchMovieDataTask extends AsyncTask<String, Void, String[]> {
+    public class FetchMovieDataTask extends AsyncTask<Void, Void, String[]> {
 
         @Override
         protected void onPreExecute() {
@@ -106,10 +105,9 @@ public class MainActivity extends AppCompatActivity{
         }
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected String[] doInBackground(Void... params) {
 
-            String sortBy = params[0];
-            URL movieRequestUrl = NetworkUtils.buildUrl(sortBy);
+            URL movieRequestUrl = NetworkUtils.buildPopularUrl();
 
             try {
                 String jsonMovieResponse = NetworkUtils.getResponseFromHttpUrl(movieRequestUrl);
