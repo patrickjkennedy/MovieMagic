@@ -1,5 +1,7 @@
 package com.example.android.moviemagic;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +23,7 @@ import org.w3c.dom.Text;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements DataAdapter.DataAdapterOnClickHandler{
 
     private RecyclerView recyclerView;
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(layoutManager);
 
-        dataAdapter = new DataAdapter(this, movies);
+        dataAdapter = new DataAdapter(this, this);
 
         recyclerView.setAdapter(dataAdapter);
 
@@ -66,6 +68,19 @@ public class MainActivity extends AppCompatActivity{
 
         /* Once all of our views are setup, we can load the movie data. */
         loadMovieData();
+    }
+
+    @Override
+    public void onClick(Movie movie) {
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("movie", movie);
+
+        intentToStartDetailActivity.putExtras(bundle);
+        startActivity(intentToStartDetailActivity);
     }
 
     private void loadMovieData(){
