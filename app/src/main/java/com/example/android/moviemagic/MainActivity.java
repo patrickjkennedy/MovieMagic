@@ -19,6 +19,7 @@ import com.example.android.moviemagic.utilities.NetworkUtils;
 import org.w3c.dom.Text;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity{
     private GridLayoutManager layoutManager;
 
     private DataAdapter dataAdapter;
+
+    private ArrayList<Movie> movies = new ArrayList<>();
 
     private ProgressBar loadingIndicator;
 
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(layoutManager);
 
-        dataAdapter = new DataAdapter(this);
+        dataAdapter = new DataAdapter(this, movies);
 
         recyclerView.setAdapter(dataAdapter);
 
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity{
         errorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
-    public class FetchMovieDataTask extends AsyncTask<Void, Void, String[]> {
+    public class FetchMovieDataTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -108,17 +111,17 @@ public class MainActivity extends AppCompatActivity{
         }
 
         @Override
-        protected String[] doInBackground(Void... params) {
+        protected ArrayList<Movie> doInBackground(Void... params) {
 
             URL movieRequestUrl = NetworkUtils.buildPopularUrl();
 
             try {
                 String jsonMovieResponse = NetworkUtils.getResponseFromHttpUrl(movieRequestUrl);
-                String[] posterPaths = MovieJsonUtils
-                        .getPosterPathsFromJson(MainActivity.this, jsonMovieResponse);
+                ArrayList<Movie> movies = MovieJsonUtils
+                        .extractMovies(MainActivity.this, jsonMovieResponse);
 
                 Log.v("MainActivity", "JSON: " + jsonMovieResponse);
-                return posterPaths;
+                return movies;
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -127,11 +130,11 @@ public class MainActivity extends AppCompatActivity{
         }
 
         @Override
-        protected void onPostExecute(String[] posterPaths) {
+        protected void onPostExecute(ArrayList<Movie> movies) {
             loadingIndicator.setVisibility(View.INVISIBLE);
-            if (posterPaths != null) {
+            if (movies != null) {
                 showMoviePosterDataView();
-                dataAdapter.setPosterPaths(posterPaths);
+                dataAdapter.setMovies(movies);
             } else {
                 showErrorMessage();
             }
@@ -154,13 +157,13 @@ public class MainActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.action_popular) {
-            dataAdapter.setPosterPaths(null);
+            dataAdapter.setMovies(null);
             loadMovieData();
             return true;
         }
 
         if (id == R.id.action_top_rated) {
-            dataAdapter.setPosterPaths(null);
+            dataAdapter.setMovies(null);
             loadMovieData();
             return true;
         }
