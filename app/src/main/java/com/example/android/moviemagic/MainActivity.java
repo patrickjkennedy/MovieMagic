@@ -18,44 +18,42 @@ import android.widget.TextView;
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
 import com.example.android.moviemagic.utilities.NetworkUtils;
 
-import org.w3c.dom.Text;
-
 import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements DataAdapter.DataAdapterOnClickHandler{
 
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
 
-    private GridLayoutManager layoutManager;
+    private GridLayoutManager mLayoutManager;
 
-    private DataAdapter dataAdapter;
+    private DataAdapter mDataAdapter;
 
-    private ArrayList<Movie> movies = new ArrayList<>();
+    private ProgressBar mLoadingIndicator;
 
-    private ProgressBar loadingIndicator;
+    private TextView mErrorMessageDisplay;
 
-    private TextView errorMessageDisplay;
+    private static Boolean mTopRatedIsSelected;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_movie_posters);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_movie_posters);
 
         /* This TextView is used to display errors and will be hidden if there are no errors */
-        errorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        layoutManager = new GridLayoutManager(MainActivity.this, 2);
+        mLayoutManager = new GridLayoutManager(MainActivity.this, 2);
 
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
 
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
-        dataAdapter = new DataAdapter(this, this);
+        mDataAdapter = new DataAdapter(this, this);
 
-        recyclerView.setAdapter(dataAdapter);
+        mRecyclerView.setAdapter(mDataAdapter);
 
         /*
          * The ProgressBar that will indicate to the user that we are loading data. It will be
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
          * Please note: This so called "ProgressBar" isn't a bar by default. It is more of a
          * circle. We didn't make the rules (or the names of Views), we just follow them.
          */
-        loadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         /* Once all of our views are setup, we can load the movie data. */
         loadMovieData();
@@ -85,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
 
     private void loadMovieData(){
         showMoviePosterDataView();
-
         new FetchMovieDataTask().execute();
     }
 
@@ -98,9 +95,9 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
      */
     private void showMoviePosterDataView() {
         /* First, make sure the error is invisible */
-        errorMessageDisplay.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         /* Then, make sure the weather data is visible */
-        recyclerView.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -112,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
      */
     private void showErrorMessage() {
         /* First, hide the currently visible data */
-        recyclerView.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
-        errorMessageDisplay.setVisibility(View.VISIBLE);
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     public class FetchMovieDataTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
@@ -122,20 +119,24 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            loadingIndicator.setVisibility(View.VISIBLE);
+            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected ArrayList<Movie> doInBackground(Void... params) {
 
-            URL movieRequestUrl = NetworkUtils.buildPopularUrl();
+            URL movieRequestUrl;
+
+            if(mTopRatedIsSelected){
+                movieRequestUrl = NetworkUtils.buildTopRatedUrl();
+            } else{
+                movieRequestUrl = NetworkUtils.buildPopularUrl();
+            }
 
             try {
                 String jsonMovieResponse = NetworkUtils.getResponseFromHttpUrl(movieRequestUrl);
                 ArrayList<Movie> movies = MovieJsonUtils
                         .extractMovies(MainActivity.this, jsonMovieResponse);
-
-                Log.v("MainActivity", "JSON: " + jsonMovieResponse);
                 return movies;
 
             } catch (Exception e){
@@ -146,10 +147,10 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
 
         @Override
         protected void onPostExecute(ArrayList<Movie> movies) {
-            loadingIndicator.setVisibility(View.INVISIBLE);
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (movies != null) {
                 showMoviePosterDataView();
-                dataAdapter.setMovies(movies);
+                mDataAdapter.setMovies(movies);
             } else {
                 showErrorMessage();
             }
@@ -172,13 +173,15 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
         int id = item.getItemId();
 
         if (id == R.id.action_popular) {
-            dataAdapter.setMovies(null);
+            mTopRatedIsSelected = false;
+            mDataAdapter.setMovies(null);
             loadMovieData();
             return true;
         }
 
         if (id == R.id.action_top_rated) {
-            dataAdapter.setMovies(null);
+            mTopRatedIsSelected = true;
+            mDataAdapter.setMovies(null);
             loadMovieData();
             return true;
         }
