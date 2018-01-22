@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
 
     private TextView mErrorMessageDisplay;
 
-    private static Boolean mTopRatedIsSelected;
+    private static Boolean mTopRatedIsSelected = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
