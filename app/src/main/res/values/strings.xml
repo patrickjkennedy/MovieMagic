@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Movie Magic</string>
+    <string name="detail_title">Title</string>
+    <string name="detail_rating">Rating</string>
+    <string name="detail_release">Release</string>
+    <string name="detail_overview">Overview</string>
+    <string name="main_error">An error has occurred.</string>
+    <string name="sort_popular">Popular</string>
+    <string name="sort_top_rated">Top-Rated</string>
 </resources>
