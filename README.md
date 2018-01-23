@@ -5,8 +5,8 @@ It displays either a list of the most popular or else the highest user-rated mov
 It uses the [Picasso](https://square.github.io/picasso/) library to load the images. 
 Users can get detailed information about a movie by tapping on that movie's poster.
 
-![Main Grid](app/src/main/res/drawable-xxxhdpi/grid.png
- "Main Grid") ![Detail](app/src/main/res/drawable-xxxhdpi/detail.png
+![Main Grid](https://user-images.githubusercontent.com/8617261/35287893-538f023a-005b-11e8-8bb5-0c9ad23ffc5a.png
+ "Main Grid") ![Detail](https://user-images.githubusercontent.com/8617261/35287954-74f465b4-005b-11e8-96af-09a688462610.png
  "Detail")
 
 ## API Key Required
