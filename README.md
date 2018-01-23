@@ -5,6 +5,8 @@ It displays either a list of the most popular or else the highest user-rated mov
 It uses the [Picasso](https://square.github.io/picasso/) library to load the images. 
 Users can get detailed information about a movie by tapping on that movie's poster.
 
+![Main Grid](drawable-xxxhdpi/grid.png "Main Grid") ![Detail](drawable-xxxhdpi/detail.png "Detail")
+
 ## API Key Required
 
 To use this application, you will need to request an API key from [themoviedb.org.](https://www.themoviedb.org/)
