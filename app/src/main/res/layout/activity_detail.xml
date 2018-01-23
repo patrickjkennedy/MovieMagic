@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title"
+                android:text="@string/detail_title"
                 android:textSize="20sp"
                 android:textStyle="italic|bold"/>
 
@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating"
+                android:text="@string/detail_rating"
                 android:textSize="20sp"
                 android:textStyle="italic|bold"/>
 
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Release"
+                android:text="@string/detail_release"
                 android:textSize="20sp"
                 android:textStyle="italic|bold"/>
 
@@ -76,7 +76,7 @@
         android:layout_marginLeft="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Overview"
+        android:text="@string/detail_overview"
         android:textSize="20sp"
         android:textStyle="italic|bold"/>
 
