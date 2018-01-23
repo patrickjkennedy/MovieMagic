@@ -1,7 +1,6 @@
 package com.example.android.moviemagic.utilities;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,8 +52,6 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-        Log.v("NetworkUtils", "Popular URL: " + url);
         return url;
     }
 
@@ -76,8 +73,6 @@ public final class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-        Log.v("NetworkUtils", "Top Rated URL: " + url);
         return url;
     }
 
