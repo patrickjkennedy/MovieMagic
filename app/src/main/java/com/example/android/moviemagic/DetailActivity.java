@@ -10,6 +10,8 @@ import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private String mId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,6 +36,8 @@ public class DetailActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(movie.getmPosterPath())
                 .into(mPoster);
+
+        mId = movie.getmId();
 
         mTitle.setText(movie.getmTitle());
         mUserRating.setText(movie.getmRating());
