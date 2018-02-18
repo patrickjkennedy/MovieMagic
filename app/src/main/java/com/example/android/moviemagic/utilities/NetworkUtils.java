@@ -26,6 +26,12 @@ public final class NetworkUtils {
     private static final String TOP_RATED_PATH =
             "top_rated";
 
+    private static final String VIDEOS =
+            "videos";
+
+    private static final String REVIEWS =
+            "reviews";
+
     // Parameters for the API
 
     //TODO: Insert your API key into the empty string provided below.
@@ -64,6 +70,54 @@ public final class NetworkUtils {
     public static URL buildTopRatedUrl() {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                 .appendPath(TOP_RATED_PATH)
+                .appendQueryParameter(APIKEY_PARAM, apiKey)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    /**
+     * Builds the URL to fetch the videos from themoviedb.org API for the given ID
+     *
+     * @param id the ID for a film (found in movie object)
+     *
+     * @return The URL to query the server
+     */
+
+    public static URL buildVideosUrl(String id) {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
+                .appendPath(id)
+                .appendPath(VIDEOS)
+                .appendQueryParameter(APIKEY_PARAM, apiKey)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    /**
+     * Builds the URL to fetch the reviews from themoviedb.org API for the given ID
+     *
+     * @param id the ID for a film (found in movie object)
+     *
+     * @return The URL to query the server
+     */
+
+    public static URL buildReviewsUrl(String id) {
+        Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
+                .appendPath(id)
+                .appendPath(REVIEWS)
                 .appendQueryParameter(APIKEY_PARAM, apiKey)
                 .build();
 
