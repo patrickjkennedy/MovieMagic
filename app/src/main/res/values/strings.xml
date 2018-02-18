@@ -7,4 +7,6 @@
     <string name="main_error">An error has occurred.</string>
     <string name="sort_popular">Popular</string>
     <string name="sort_top_rated">Top-Rated</string>
+    <string name="reviews">Reviews</string>
+    <string name="trailers">Trailers</string>
 </resources>

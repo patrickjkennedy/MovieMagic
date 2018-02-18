@@ -95,7 +95,7 @@
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/v_hbar"
+            android:id="@+id/v_hbar1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/tv_overview"
@@ -106,11 +106,41 @@
             android:id="@+id/tv_detail_trailers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/v_hbar"
+            android:layout_below="@id/v_hbar1"
             android:layout_marginLeft="8dp"
-            android:text="Trailers"
+            android:text="@string/trailers"
             android:textSize="20sp"
             android:textStyle="italic|bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_detail_trailers" />
+
+        <View
+            android:id="@+id/v_hbar2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/rv_trailers"
+            android:layout_margin="20dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_detail_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/v_hbar2"
+            android:layout_marginLeft="8dp"
+            android:text="@string/reviews"
+            android:textSize="20sp"
+            android:textStyle="italic|bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tv_detail_reviews" />
 
     </RelativeLayout>
 

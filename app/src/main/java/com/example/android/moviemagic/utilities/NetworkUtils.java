@@ -35,7 +35,7 @@ public final class NetworkUtils {
     // Parameters for the API
 
     //TODO: Insert your API key into the empty string provided below.
-    private static final String apiKey = "";
+    private static final String apiKey = "389d317db6eff28971225a90b6433007";
 
     final static String APIKEY_PARAM = "api_key";
 
