@@ -83,4 +83,33 @@ public final class MovieJsonUtils {
         /* Return the arraylist of movies */
         return movies;
     }
+
+    public static ArrayList<String> getTrailerKeysFromJson(Context context, String videoJsonStr)
+            throws JSONException{
+
+        /* A string array to hold each trailer's key */
+        ArrayList<String> keys = null;
+
+        try{
+            JSONObject videoJson = new JSONObject(videoJsonStr);
+
+            /* Get the results object */
+            JSONArray results = videoJson.getJSONArray("results");
+
+            keys = new ArrayList<String>();
+
+            /* Loop through each result in the array */
+            for(int i = 0; i < results.length(); i++){
+                JSONObject r = results.getJSONObject(i);
+                if(r.getString("type").equals("Trailer")){
+                    String key = r.getString("key");
+                    keys.add(key);
+                }
+            }
+
+        } catch (JSONException e){
+            Log.e("MovieJsonUtils", "Problem parsing the Movie DB API Video results", e);
+        }
+        return keys;
+    }
 }
