@@ -67,6 +67,7 @@ public final class MovieJsonUtils {
             /* Loop through each result in the array */
             for(int i = 0; i < results.length(); i++){
                 JSONObject r = results.getJSONObject(i);
+                String id = r.getString("id");
                 String title = r.getString("title");
                 String releaseDate = r.getString("release_date");
                 String posterPath = r.getString("poster_path");
@@ -74,7 +75,7 @@ public final class MovieJsonUtils {
                 String summary = r.getString("overview");
 
                 /* Create a Movie object using the data above */
-                movies.add(new Movie(title, releaseDate, BASE_POSTER_PATH + posterPath, rating, summary));
+                movies.add(new Movie(id, title, releaseDate, BASE_POSTER_PATH + posterPath, rating, summary));
             }
         }  catch (JSONException e){
             Log.e("MovieJsonUtils", "Problem parsing the Movie DB API results", e);

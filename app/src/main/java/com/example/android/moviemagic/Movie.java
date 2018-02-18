@@ -8,14 +8,19 @@ import java.io.Serializable;
 
 public class Movie implements Serializable{
 
-    private String mTitle, mReleaseDate, mPosterPath, mRating, mSynopsis;
+    private String mId, mTitle, mReleaseDate, mPosterPath, mRating, mSynopsis;
 
-    public Movie(String mTitle, String mReleaseDate, String mPosterPath, String mRating, String mSynopsis) {
+    public Movie(String mId, String mTitle, String mReleaseDate, String mPosterPath, String mRating, String mSynopsis) {
+        this.mId = mId;
         this.mTitle = mTitle;
         this.mReleaseDate = mReleaseDate;
         this.mPosterPath = mPosterPath;
         this.mRating = mRating;
         this.mSynopsis = mSynopsis;
+    }
+
+    public String getmId() {
+        return mId;
     }
 
     public String getmTitle() {
