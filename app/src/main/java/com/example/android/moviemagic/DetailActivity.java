@@ -73,6 +73,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
         mTrailerAdapter = new TrailerAdapter(this, this);
 
+        mTrailersRecyclerView.setAdapter(mTrailerAdapter);
+
         /* Fetch the trailer data from the API */
         loadTrailerData();
 
