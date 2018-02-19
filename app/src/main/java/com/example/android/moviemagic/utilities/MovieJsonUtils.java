@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.android.moviemagic.Movie;
 import com.example.android.moviemagic.Review;
+import com.example.android.moviemagic.Trailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,36 +18,6 @@ import java.util.ArrayList;
  */
 
 public final class MovieJsonUtils {
-
-    public static String[] getPosterPathsFromJson(Context context, String movieJsonStr)
-            throws JSONException {
-
-        final String BASE_POSTER_PATH = "https://image.tmdb.org/t/p/w500/";
-
-        /* A string array to hold each movie's poster path */
-        String[] posterPaths = null;
-
-        try{
-            JSONObject movieJson = new JSONObject(movieJsonStr);
-
-            /* Get the results object */
-            JSONArray results = movieJson.getJSONArray("results");
-
-            posterPaths = new String[results.length()];
-
-            /* Loop through each result in the array */
-            for(int i = 0; i < results.length(); i++){
-                JSONObject r = results.getJSONObject(i);
-                String posterPath = r.getString("poster_path");
-                posterPaths[i] = BASE_POSTER_PATH + posterPath;
-            }
-
-        } catch (JSONException e){
-            Log.e("MovieJsonUtils", "Problem parsing the Movie DB API results", e);
-        }
-
-        return posterPaths;
-    }
 
     public static ArrayList<Movie> extractMovies(Context context, String movieJsonStr)
             throws JSONException {
@@ -115,32 +86,32 @@ public final class MovieJsonUtils {
         return reviews;
     }
 
-    public static ArrayList<String> getTrailerKeysFromJson(Context context, String videoJsonStr)
+    public static ArrayList<Trailer> extractTrailers(Context context, String videoJsonStr)
             throws JSONException{
 
-        /* A string array to hold each trailer's key */
-        ArrayList<String> keys = null;
-
+        /* First, get an empty arraylist of trailers */
+        ArrayList<Trailer> trailers = null;
         try{
             JSONObject videoJson = new JSONObject(videoJsonStr);
 
             /* Get the results object */
             JSONArray results = videoJson.getJSONArray("results");
 
-            keys = new ArrayList<String>();
+            trailers = new ArrayList<Trailer>();
 
             /* Loop through each result in the array */
             for(int i = 0; i < results.length(); i++){
                 JSONObject r = results.getJSONObject(i);
                 if(r.getString("type").equals("Trailer")){
+                    String name = r.getString("name");
                     String key = r.getString("key");
-                    keys.add(key);
+                    trailers.add(new Trailer(name, key));
                 }
             }
 
         } catch (JSONException e){
             Log.e("MovieJsonUtils", "Problem parsing the Movie DB API Video results", e);
         }
-        return keys;
+        return trailers;
     }
 }
