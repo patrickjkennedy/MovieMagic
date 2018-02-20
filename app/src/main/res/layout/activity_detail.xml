@@ -118,6 +118,25 @@
             android:layout_height="match_parent"
             android:layout_below="@id/tv_detail_trailers" />
 
+        <TextView
+            android:id="@+id/tv_trailer_error_message_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_detail_trailers"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+            android:text="@string/no_trailers_available"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/pb_trailer_loading_indicator"
+            android:layout_height="42dp"
+            android:layout_width="42dp"
+            android:layout_below="@id/tv_detail_trailers"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
+
         <View
             android:id="@+id/v_hbar2"
             android:layout_width="match_parent"

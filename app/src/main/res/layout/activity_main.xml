@@ -15,7 +15,7 @@
             android:padding="16dp"
             android:text="@string/main_error"
             android:textSize="20sp"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <ProgressBar
             android:id="@+id/pb_loading_indicator"

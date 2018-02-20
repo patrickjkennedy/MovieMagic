@@ -78,7 +78,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.dataHolder>{
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            Movie movie = mMovies.get(getAdapterPosition());
+            Movie movie = mMovies.get(adapterPosition);
             mClickHandler.onClick(movie);
         }
     }

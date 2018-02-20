@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
     }
 
     public class FetchMovieDataTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
