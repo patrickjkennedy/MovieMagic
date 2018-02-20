@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
@@ -29,6 +30,10 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     private LinearLayoutManager mTrailersLayoutManager;
 
     private TrailerAdapter mTrailerAdapter;
+
+    private ProgressBar mTrailerLoadingIndicator;
+
+    private TextView mErrorMessageDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mReleaseDate.setText(movie.getmReleaseDate());
         mOverview.setText(movie.getmSynopsis());
 
+        /* This TextView is used to display errors and will be hidden if there are no errors */
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_trailer_error_message_display);
+
         /* Setup the Trailers Recyclerview */
         mTrailersRecyclerView = (RecyclerView) findViewById(R.id.rv_trailers);
 
@@ -74,6 +82,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mTrailerAdapter = new TrailerAdapter(this, this);
 
         mTrailersRecyclerView.setAdapter(mTrailerAdapter);
+
+        /* Loading indicator for trailers */
+        mTrailerLoadingIndicator = (ProgressBar) findViewById(R.id.pb_trailer_loading_indicator);
 
         /* Fetch the trailer data from the API */
         loadTrailerData();
@@ -97,11 +108,40 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         new FetchTrailerDataTask().execute();
     }
 
+    /**
+     * This method will make the View for the movie poster images visible and
+     * hide the error message.
+     * <p>
+     * Since it is okay to redundantly set the visibility of a View, we don't
+     * need to check whether each view is currently visible or invisible.
+     */
+    private void showTrailerRecyclerView() {
+        /* First, make sure the error is invisible */
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        /* Then, make sure the weather data is visible */
+        mTrailersRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method will make the error message visible and hide the movie poster
+     * View.
+     * <p>
+     * Since it is okay to redundantly set the visibility of a View, we don't
+     * need to check whether each view is currently visible or invisible.
+     */
+    private void showErrorMessage() {
+        /* First, hide the currently visible data */
+        mTrailersRecyclerView.setVisibility(View.INVISIBLE);
+        /* Then, show the error */
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
     public class FetchTrailerDataTask extends AsyncTask<Void, Void, ArrayList<Trailer>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            mTrailerLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -123,10 +163,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
         @Override
         protected void onPostExecute(ArrayList<Trailer> trailers) {
+            mTrailerLoadingIndicator.setVisibility(View.INVISIBLE);
             if (trailers != null) {
+                showTrailerRecyclerView();
                 mTrailerAdapter.setTrailers(trailers);
             } else {
-                System.out.println("Didn't work");
+                showErrorMessage();
             }
         }
 
