@@ -31,6 +31,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     private TrailerAdapter mTrailerAdapter;
 
+    private RecyclerView mReviewsRecyclerView;
+
+    private LinearLayoutManager mReviewsLayoutManager;
+
+    private ReviewAdapter mReviewAdapter;
+
     private ProgressBar mTrailerLoadingIndicator;
 
     private TextView mErrorMessageDisplay;
@@ -86,8 +92,24 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         /* Loading indicator for trailers */
         mTrailerLoadingIndicator = (ProgressBar) findViewById(R.id.pb_trailer_loading_indicator);
 
+        /* Setup the Reviews Recyclerview */
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
+
+        mReviewsLayoutManager = new LinearLayoutManager(DetailActivity.this);
+
+        mReviewsRecyclerView.setHasFixedSize(true);
+
+        mReviewAdapter = new ReviewAdapter(this);
+
+        mReviewsRecyclerView.setLayoutManager(mReviewsLayoutManager);
+
+        mReviewsRecyclerView.setAdapter(mReviewAdapter);
+
         /* Fetch the trailer data from the API */
         loadTrailerData();
+
+        /* Fetch the review data from the API */
+        loadReviewData();
 
     }
 
@@ -107,6 +129,11 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
     private void loadTrailerData(){
         new FetchTrailerDataTask().execute();
     }
+
+    private void loadReviewData(){
+        new FetchReviewDataTask().execute();
+    }
+
 
     /**
      * This method will make the View for the movie poster images visible and
@@ -173,5 +200,41 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         }
 
     }
+
+    public class FetchReviewDataTask extends AsyncTask<Void, Void, ArrayList<Review>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<Review> doInBackground(Void... params) {
+
+            URL reviewRequestUrl = NetworkUtils.buildReviewsUrl(mId);
+
+            try {
+                String jsonReviewResponse = NetworkUtils.getResponseFromHttpUrl(reviewRequestUrl);
+                ArrayList<Review> reviews = MovieJsonUtils
+                        .extractReviews(DetailActivity.this, jsonReviewResponse);
+                return reviews;
+
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Review> reviews) {
+            if (reviews != null) {
+                mReviewAdapter.setReviews(reviews);
+            } else {
+                System.out.println("Didn't work");
+            }
+        }
+
+    }
+
 
 }
