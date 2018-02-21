@@ -15,9 +15,9 @@
     <TextView
         android:id="@+id/tv_review_author"
         android:layout_below="@id/tv_review_content"
-        android:layout_toRightOf="@id/tv_review_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:textSize="14sp"
         tools:text="Boaty McBoatface"
         android:textStyle="italic|bold"/>

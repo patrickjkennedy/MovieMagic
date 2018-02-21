@@ -122,10 +122,21 @@
             android:id="@+id/tv_trailer_error_message_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_detail_trailers"
+            android:layout_below="@id/v_hbar1"
             android:layout_centerHorizontal="true"
             android:padding="16dp"
             android:text="@string/no_trailers_available"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_review_error_message_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_trailer_error_message_display"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+            android:text="No Reviews Available"
             android:textSize="20sp"
             android:visibility="invisible" />
 
