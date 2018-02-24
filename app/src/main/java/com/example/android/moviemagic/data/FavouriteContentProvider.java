@@ -3,6 +3,7 @@ package com.example.android.moviemagic.data;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -14,7 +15,23 @@ import android.support.annotation.Nullable;
 
 public class FavouriteContentProvider extends ContentProvider {
 
+    public static final int FAVOURITES = 100;
+    public static final int FAVOURITE_WITH_ID = 101;
+
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+
     private FavouriteDbHelper mFavouriteDbHelper;
+
+    public static UriMatcher buildUriMatcher() {
+        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+        // Add matches with addURI
+        // directory
+        uriMatcher.addURI(FavouriteContract.AUTHORITY, FavouriteContract.PATH_FAVOURITES, FAVOURITES);
+        uriMatcher.addURI(FavouriteContract.AUTHORITY, FavouriteContract.PATH_FAVOURITES + "/#", FAVOURITE_WITH_ID);
+
+        return uriMatcher;
+    }
 
     @Override
     public boolean onCreate() {
