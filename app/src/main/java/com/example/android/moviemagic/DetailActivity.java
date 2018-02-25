@@ -16,18 +16,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.moviemagic.data.FavouriteContract;
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
 import com.example.android.moviemagic.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
 import java.net.URL;
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements TrailerAdapter.TrailerAdapterOnClickHandler{
+public class DetailActivity extends AppCompatActivity implements
+        TrailerAdapter.TrailerAdapterOnClickHandler{
 
     private String mId;
 
@@ -59,6 +56,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     private String mMovieTitle;
 
+    // Constants for logging
+    private static final String TAG = DetailActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,7 +80,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
         /* Get the checkbox */
         mFavouriteCheckbox = (CheckBox) findViewById(R.id.cb_favorite);
-        //TODO: Need to determine if a movie already exists in the favourites.db. If yes, set to checked.
 
         /* Bind the data to the views above */
 
@@ -138,6 +137,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
         //TODO: Check to see if film is a Favourite, if yes, set checkbox to checked
 
+
         /* Fetch the trailer data from the API */
         loadTrailerData();
 
@@ -145,6 +145,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         loadReviewData();
 
     }
+
+
 
     @Override
     public void onClick(Trailer trailer) {
@@ -326,6 +328,4 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         }
 
     }
-
-
 }

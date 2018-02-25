@@ -184,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
             return true;
         }
 
+        if (id == R.id.action_favourites) {
+            Intent intent = new Intent(this, FavouritesActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

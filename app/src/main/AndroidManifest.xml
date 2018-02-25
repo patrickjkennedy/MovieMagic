@@ -22,13 +22,14 @@
         <activity
             android:name=".DetailActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
+        <activity android:name=".FavouritesActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" ></activity>
         <provider
-            android:name="com.example.android.moviemagic.data.FavouriteContentProvider"
+            android:name=".data.FavouriteContentProvider"
             android:authorities="com.example.android.moviemagic"
-            android:exported="false"/>
-
+            android:exported="false" />
     </application>
 
 </manifest>
