@@ -76,6 +76,15 @@
             android:paddingBottom="4dp"
             android:textSize="20sp" />
 
+        <CheckBox
+            android:id="@+id/cb_favorite"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/tv_release_date"
+            android:layout_toRightOf="@id/iv_poster"
+            android:onClick="onClickToggleFavourite"
+            android:button="@drawable/star"/>
+
         <TextView
             android:id="@+id/tv_detail_overview"
             android:layout_width="wrap_content"

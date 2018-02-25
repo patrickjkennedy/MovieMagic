@@ -1,6 +1,7 @@
 package com.example.android.moviemagic;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,10 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.moviemagic.data.FavouriteContract;
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
 import com.example.android.moviemagic.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -51,6 +55,10 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
     private TextView mTrailerErrorMessageDisplay;
 
+    private CheckBox mFavouriteCheckbox;
+
+    private String mMovieTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -70,13 +78,19 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
         mOverview = (TextView) findViewById(R.id.tv_overview);
 
+        /* Get the checkbox */
+        mFavouriteCheckbox = (CheckBox) findViewById(R.id.cb_favorite);
+        //TODO: Need to determine if a movie already exists in the favourites.db. If yes, set to checked.
+
         /* Bind the data to the views above */
 
         Picasso.with(this)
                 .load(movie.getmPosterPath())
                 .into(mPoster);
 
+        /* Set the global variables we will need for adding the movie to Favourites */
         mId = movie.getmId();
+        mMovieTitle = movie.getmTitle();
 
         mTitle.setText(movie.getmTitle());
         mUserRating.setText(movie.getmRating());
@@ -122,6 +136,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
 
         mReviewsRecyclerView.setAdapter(mReviewAdapter);
 
+        //TODO: Check to see if film is a Favourite, if yes, set checkbox to checked
+
         /* Fetch the trailer data from the API */
         loadTrailerData();
 
@@ -141,6 +157,29 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
         } catch (ActivityNotFoundException ex) {
             context.startActivity(webIntent);
         }
+    }
+
+    public void onClickToggleFavourite(View view){
+        // If Favourites Checkbox is checked
+        if (mFavouriteCheckbox.isChecked()){
+            // Store the Movie API ID and Movie name in a content values object
+            String mTitleAsString = mMovieTitle;
+            int mIdAsInt = Integer.parseInt(mId);
+
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put(FavouriteContract.FavouriteEntry.COLUMN_MOVIE_TITLE, mTitleAsString);
+            contentValues.put(FavouriteContract.FavouriteEntry.COLUMN_MOVIE_ID, mIdAsInt);
+
+            // Insert new favourite via a ContentResolver
+            Uri uri = getContentResolver().insert(FavouriteContract.FavouriteEntry.CONTENT_URI, contentValues);
+
+            // Display 'Added to Favourites' in a Toast
+            if(uri != null) {
+                Toast.makeText(getBaseContext(), "Added to Favourites: " + uri.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
     private void loadTrailerData(){
