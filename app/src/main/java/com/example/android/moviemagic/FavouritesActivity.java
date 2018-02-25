@@ -1,6 +1,7 @@
 package com.example.android.moviemagic;
 
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -119,6 +120,7 @@ public class FavouritesActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
         Log.v(TAG, "Load finished.");
+        Log.v(TAG, "Cursor: " + DatabaseUtils.dumpCursorToString(data));
         mAdapter.swapCursor(data);
     }
 
