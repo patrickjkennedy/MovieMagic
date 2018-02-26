@@ -199,10 +199,18 @@ public class DetailActivity extends AppCompatActivity implements
 
             // Display 'Added to Favourites' in a Toast
             if(uri != null) {
-                Toast.makeText(getBaseContext(), "Added to Favourites: " + uri.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Added to Favourites", Toast.LENGTH_LONG).show();
             }
         } else{
-
+            // Build a uri to delete movie from favourites database
+            Uri uri = FavouriteContract.FavouriteEntry.CONTENT_URI;
+            uri = uri.buildUpon().appendPath(mId).build();
+            getContentResolver().delete(uri, null, null);
+            getSupportLoaderManager().restartLoader(DETAIL_LOADER_ID, null, DetailActivity.this);
+            // Display 'Removed From Favourites' in a Toast
+            if(uri != null) {
+                Toast.makeText(getBaseContext(), "Removed From Favourites", Toast.LENGTH_LONG).show();
+            }
         }
 
     }

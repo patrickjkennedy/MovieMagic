@@ -39,7 +39,6 @@ public final class NetworkUtils {
 
     private static final String APIKEY_PARAM = "api_key";
 
-
     /**
      * Builds the URL to fetch the most popular movies from themoviedb.org API.
      *
