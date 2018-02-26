@@ -4,12 +4,18 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -17,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.moviemagic.data.FavouriteContract;
+import com.example.android.moviemagic.data.FavouriteDbHelper;
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
 import com.example.android.moviemagic.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -24,7 +31,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity implements
-        TrailerAdapter.TrailerAdapterOnClickHandler{
+        TrailerAdapter.TrailerAdapterOnClickHandler,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private String mId;
 
@@ -58,6 +66,7 @@ public class DetailActivity extends AppCompatActivity implements
 
     // Constants for logging
     private static final String TAG = DetailActivity.class.getSimpleName();
+    private static final int DETAIL_LOADER_ID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +145,7 @@ public class DetailActivity extends AppCompatActivity implements
         mReviewsRecyclerView.setAdapter(mReviewAdapter);
 
         //TODO: Check to see if film is a Favourite, if yes, set checkbox to checked
-
+        getSupportLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
 
         /* Fetch the trailer data from the API */
         loadTrailerData();
@@ -144,6 +153,18 @@ public class DetailActivity extends AppCompatActivity implements
         /* Fetch the review data from the API */
         loadReviewData();
 
+    }
+
+    /**
+     * This method is called after this activity has been paused or restarted.
+     * Often, this is after new data has been inserted through an AddTaskActivity,
+     * so this restarts the loader to re-query the underlying data for any changes.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // re-queries for all tasks
+        getSupportLoaderManager().restartLoader(DETAIL_LOADER_ID, null, this);
     }
 
 
@@ -180,6 +201,8 @@ public class DetailActivity extends AppCompatActivity implements
             if(uri != null) {
                 Toast.makeText(getBaseContext(), "Added to Favourites: " + uri.toString(), Toast.LENGTH_LONG).show();
             }
+        } else{
+
         }
 
     }
@@ -326,6 +349,63 @@ public class DetailActivity extends AppCompatActivity implements
                 showReviewErrorMessage();
             }
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle loaderArgs) {
+        return new AsyncTaskLoader<Cursor>(this) {
+
+            // Initialize a Cursor, if this contains data, set the checkbox to checked.
+            Cursor mFavouriteData = null;
+
+            // onStartLoading() is called when a loader first starts loading data
+            @Override
+            protected void onStartLoading() {
+                if (mFavouriteData != null) {
+                    // Delivers any previously loaded data immediately
+                    deliverResult(mFavouriteData);
+                } else {
+                    // Force a new load
+                    forceLoad();
+                }
+            }
+
+            // loadInBackground() performs asynchronous loading of data
+            @Override
+            public Cursor loadInBackground() {
+                try {
+                    return getContentResolver().query(FavouriteContract.FavouriteEntry.CONTENT_URI,
+                            null,
+                            FavouriteContract.FavouriteEntry.COLUMN_MOVIE_ID + "=" + mId,
+                            null,
+                            null);
+
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to asynchronously load data.");
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            // deliverResult sends the result of the load, a Cursor, to the registered listener
+            public void deliverResult(Cursor data) {
+                mFavouriteData = data;
+                super.deliverResult(data);
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.v(TAG, "Load finished.");
+        Log.v(TAG, "Cursor: " + DatabaseUtils.dumpCursorToString(data));
+        if(data.getCount() > 0){
+            mFavouriteCheckbox.setChecked(true);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 }

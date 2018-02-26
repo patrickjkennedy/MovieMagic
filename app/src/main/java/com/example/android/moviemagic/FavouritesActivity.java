@@ -109,7 +109,6 @@ public class FavouritesActivity extends AppCompatActivity implements
 
     }
 
-
     /**
      * Called when a previously created loader has finished its load.
      *
