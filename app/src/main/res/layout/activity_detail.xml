@@ -21,87 +21,70 @@
 
         <TextView
             android:id="@+id/tv_detail_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_toRightOf="@id/iv_poster"
             android:text="@string/detail_title"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle"/>
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_title"
             android:layout_toRightOf="@id/iv_poster"
-            android:paddingBottom="4dp"
-            android:textSize="20sp" />
+            style="@style/detailContentStyle" />
 
         <TextView
             android:id="@+id/tv_detail_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/tv_title"
             android:layout_toRightOf="@id/iv_poster"
             android:text="@string/detail_rating"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle"/>
 
         <TextView
             android:id="@+id/tv_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_rating"
             android:layout_toRightOf="@id/iv_poster"
-            android:paddingBottom="4dp"
-            android:textSize="20sp" />
+            style="@style/detailContentStyle" />
 
         <TextView
             android:id="@+id/tv_detail_release"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/tv_rating"
             android:layout_toRightOf="@id/iv_poster"
             android:text="@string/detail_release"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle" />
 
         <TextView
             android:id="@+id/tv_release_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_release"
             android:layout_toRightOf="@id/iv_poster"
-            android:paddingBottom="4dp"
-            android:textSize="20sp" />
+            style="@style/detailContentStyle" />
+
+        <TextView
+            android:id="@+id/tv_detail_favorite"
+            android:layout_below="@id/tv_release_date"
+            android:layout_toRightOf="@id/iv_poster"
+            android:text="Favorite?"
+            style="@style/detailHeadingStyle" />
 
         <CheckBox
             android:id="@+id/cb_favorite"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/tv_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_detail_favorite"
             android:layout_toRightOf="@id/iv_poster"
             android:onClick="onClickToggleFavourite"
             android:button="@drawable/star"/>
 
         <TextView
             android:id="@+id/tv_detail_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/iv_poster"
             android:layout_marginLeft="8dp"
             android:text="@string/detail_overview"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle" />
 
         <TextView
             android:id="@+id/tv_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_detail_overview"
-            android:layout_marginLeft="8dp"
-            android:textSize="16sp" />
+            style="@style/detailBodyContentStyle"/>
 
         <View
             android:id="@+id/v_hbar1"
@@ -109,22 +92,19 @@
             android:layout_height="1dp"
             android:layout_below="@id/tv_overview"
             android:layout_margin="20dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/tv_detail_trailers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/v_hbar1"
             android:layout_marginLeft="8dp"
             android:text="@string/trailers"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_trailers"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_trailers" />
 
         <TextView
@@ -145,16 +125,8 @@
             android:layout_below="@id/tv_trailer_error_message_display"
             android:layout_centerHorizontal="true"
             android:padding="16dp"
-            android:text="No Reviews Available"
+            android:text="@string/no_reviews_available"
             android:textSize="20sp"
-            android:visibility="invisible" />
-
-        <ProgressBar
-            android:id="@+id/pb_trailer_loading_indicator"
-            android:layout_height="42dp"
-            android:layout_width="42dp"
-            android:layout_below="@id/tv_detail_trailers"
-            android:layout_centerHorizontal="true"
             android:visibility="invisible" />
 
         <View
@@ -163,26 +135,25 @@
             android:layout_height="1dp"
             android:layout_below="@id/rv_trailers"
             android:layout_margin="20dp"
-            android:background="@android:color/darker_gray" />
+            android:background="@color/colorPrimaryDark"  />
 
         <TextView
             android:id="@+id/tv_detail_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@id/v_hbar2"
+            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="@string/reviews"
-            android:textSize="20sp"
-            android:textStyle="italic|bold" />
+            style="@style/detailHeadingStyle" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_reviews"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_detail_reviews" />
 
     </RelativeLayout>
 
-
 </ScrollView>
+
+
 

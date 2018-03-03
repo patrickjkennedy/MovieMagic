@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:src="@drawable/ic_play_circle" />
+        android:src="@drawable/ic_play_circle_primary_color" />
 
     <TextView
         android:id="@+id/tv_trailer_name"

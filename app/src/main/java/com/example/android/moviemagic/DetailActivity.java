@@ -19,11 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.moviemagic.data.FavouriteContract;
-import com.example.android.moviemagic.data.FavouriteDbHelper;
 import com.example.android.moviemagic.utilities.MovieJsonUtils;
 import com.example.android.moviemagic.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -45,8 +43,6 @@ public class DetailActivity extends AppCompatActivity implements
     private LinearLayoutManager mTrailersLayoutManager;
 
     private TrailerAdapter mTrailerAdapter;
-
-    private ProgressBar mTrailerLoadingIndicator;
 
     private RecyclerView mReviewsRecyclerView;
 
@@ -128,9 +124,6 @@ public class DetailActivity extends AppCompatActivity implements
 
         mTrailersRecyclerView.setAdapter(mTrailerAdapter);
 
-        /* Loading indicator for trailers */
-        mTrailerLoadingIndicator = (ProgressBar) findViewById(R.id.pb_trailer_loading_indicator);
-
         /* Setup the Reviews Recyclerview */
         mReviewsRecyclerView = (RecyclerView) findViewById(R.id.rv_reviews);
 
@@ -144,7 +137,7 @@ public class DetailActivity extends AppCompatActivity implements
 
         mReviewsRecyclerView.setAdapter(mReviewAdapter);
 
-        //TODO: Check to see if film is a Favourite, if yes, set checkbox to checked
+        /* Check to see if film is a Favourite, if yes, set checkbox to checked */
         getSupportLoaderManager().initLoader(DETAIL_LOADER_ID, null, this);
 
         /* Fetch the trailer data from the API */
@@ -289,12 +282,6 @@ public class DetailActivity extends AppCompatActivity implements
     public class FetchTrailerDataTask extends AsyncTask<Void, Void, ArrayList<Trailer>> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mTrailerLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
         protected ArrayList<Trailer> doInBackground(Void... params) {
 
             URL videoRequestUrl = NetworkUtils.buildVideosUrl(mId);
@@ -313,7 +300,6 @@ public class DetailActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(ArrayList<Trailer> trailers) {
-            mTrailerLoadingIndicator.setVisibility(View.INVISIBLE);
             if (trailers.size() != 0) {
                 showTrailerRecyclerView();
                 mTrailerAdapter.setTrailers(trailers);
