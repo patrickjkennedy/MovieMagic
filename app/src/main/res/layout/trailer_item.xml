@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/iv_play"
         android:layout_marginTop="20dp"
-        tools:textSize="20sp"
+        android:textSize="20sp"
         tools:text="Trailer 1" />
 
 </RelativeLayout>

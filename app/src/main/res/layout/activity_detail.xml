@@ -62,7 +62,7 @@
             android:id="@+id/tv_detail_favorite"
             android:layout_below="@id/tv_release_date"
             android:layout_toRightOf="@id/iv_poster"
-            android:text="Favorite?"
+            android:text="@string/detail_favourite"
             style="@style/detailHeadingStyle" />
 
         <CheckBox
@@ -111,9 +111,10 @@
             android:id="@+id/tv_trailer_error_message_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/v_hbar1"
+            android:layout_below="@id/rv_trailers"
             android:layout_centerHorizontal="true"
-            android:padding="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/no_trailers_available"
             android:textSize="20sp"
             android:visibility="invisible" />
@@ -124,7 +125,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_trailer_error_message_display"
             android:layout_centerHorizontal="true"
-            android:padding="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/no_reviews_available"
             android:textSize="20sp"
             android:visibility="invisible" />

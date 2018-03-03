@@ -63,7 +63,7 @@ public class FavouriteCursorAdapter extends RecyclerView.Adapter<FavouriteCursor
         final int id = mCursor.getInt(idIndex);
         String title = mCursor.getString(titleIndex);
 
-        Log.v("FavouritesActivity", "Title: " + title);
+        Log.v("FavouritesActivity", "Title Id: " + id);
 
         // Set values
         holder.itemView.setTag(id);

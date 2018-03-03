@@ -12,4 +12,5 @@
     <string name="no_trailers_available">No Trailers Available</string>
     <string name="sort_favourites">Favourites</string>
     <string name="no_reviews_available">No Reviews Available</string>
+    <string name="detail_favourite">Favourite?</string>
 </resources>
