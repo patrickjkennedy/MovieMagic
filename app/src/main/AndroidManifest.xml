@@ -24,9 +24,10 @@
             android:name=".DetailActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FavouritesActivity"
+        <activity
+            android:name=".FavouritesActivity"
             android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" />
         <provider
             android:name=".data.FavouriteContentProvider"
             android:authorities="com.example.android.moviemagic"
