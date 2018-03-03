@@ -6,10 +6,8 @@
 
     <TextView
         android:id="@+id/tv_review_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textSize="20sp"
+        style="@style/detailBodyContentStyle"
         tools:text="This is a sample review. My opinions are correct, no one elses. Blah blah blah. " />
 
     <TextView
@@ -18,8 +16,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         tools:text="Boaty McBoatface"
-        android:textStyle="italic|bold"/>
+        android:textStyle="italic|bold"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <View
+        android:id="@+id/v_hbar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/tv_review_author"
+        android:layout_margin="20dp"
+        android:background="@color/colorPrimaryDark"/>
 
 </RelativeLayout>
