@@ -7,8 +7,8 @@ Users can get detailed information about a movie by tapping on that movie's post
 
 Users can watch trailers, read reviews, and mark films as favourites and display these within the app. 
 
-<img src="https://user-images.githubusercontent.com/8617261/36937420-faf15776-1f0a-11e8-96ea-b711f634ab7e.png" alt="Main Grid" width="200" height="300" />
-<img src="https://user-images.githubusercontent.com/8617261/36937422-055b34ac-1f0b-11e8-93fa-66e3d96e9d15.png" alt="Detail" width="200" height="300" />
+<img src="https://user-images.githubusercontent.com/8617261/36937420-faf15776-1f0a-11e8-96ea-b711f634ab7e.png" alt="Main Grid"/>
+<img src="https://user-images.githubusercontent.com/8617261/36937422-055b34ac-1f0b-11e8-93fa-66e3d96e9d15.png" alt="Detail"/>
 
 ## API Key Required
 
