@@ -3,10 +3,12 @@ package com.example.android.moviemagic;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +35,12 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
     private TextView mErrorMessageDisplay;
 
     private static Boolean mTopRatedIsSelected = false;
+
+    private static final String BUNDLE_RECYCLER_LAYOUT = "MainActivity.recycler.layout";
+
+    private Parcelable mSavedRecyclerLayoutState;
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,24 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
 
         /* Once all of our views are setup, we can load the movie data. */
         loadMovieData();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        Log.v(TAG, "OnRestore's savedInstanceState: " + savedInstanceState);
+
+        if(savedInstanceState != null){
+            mSavedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
+        }
     }
 
     @Override
@@ -149,11 +175,11 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
             if (movies != null) {
                 showMoviePosterDataView();
                 mDataAdapter.setMovies(movies);
+                mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
             } else {
                 showErrorMessage();
             }
         }
-
     }
 
     @Override
