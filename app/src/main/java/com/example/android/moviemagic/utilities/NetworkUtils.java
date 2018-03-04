@@ -1,6 +1,9 @@
 package com.example.android.moviemagic.utilities;
 
+import android.content.Context;
 import android.net.Uri;
+
+import com.example.android.moviemagic.BuildConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,9 +36,7 @@ public final class NetworkUtils {
             "reviews";
 
     // Parameters for the API
-
-    //TODO: Insert your API key into the empty string provided below.
-    private static final String apiKey = "";
+    private static final String apiKey = BuildConfig.THE_MOVIE_DB_API_KEY;
 
     private static final String APIKEY_PARAM = "api_key";
 
