@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements DataAdapter.DataA
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Log.v(TAG, "OnRestore's savedInstanceState: " + savedInstanceState);
-
         if(savedInstanceState != null){
             mSavedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
             mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
