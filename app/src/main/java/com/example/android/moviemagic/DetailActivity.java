@@ -414,8 +414,6 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.v(TAG, "Load finished.");
-        Log.v(TAG, "Cursor: " + DatabaseUtils.dumpCursorToString(data));
         if(data.getCount() > 0){
             mFavouriteCheckbox.setChecked(true);
         }

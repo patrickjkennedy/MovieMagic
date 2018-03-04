@@ -1,7 +1,6 @@
 package com.example.android.moviemagic;
 
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
