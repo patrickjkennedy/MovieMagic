@@ -14,8 +14,12 @@ Users can watch trailers, read reviews, and mark films as favourites and display
 
 To use this application, you will need to request an API key from [themoviedb.org.](https://www.themoviedb.org/)
 The steps to do so are detailed [on their site.](https://www.themoviedb.org/faq/api)
-Insert the key where specified in the TODO in [NetworkUtils.java](app/src/main/java/com/example/android/moviemagic/utilities/NetworkUtils.java) and
-you're all set.
+
+Add the following line to [USER_HOME]/.gradle/gradle.properties:
+
+```MyTheMovieDBApiToken="XXXXX"```
+
+Resync your project and you're all set!
 
 ## License
 

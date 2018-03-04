@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.moviemagic.data.FavouriteContract;
@@ -60,9 +61,13 @@ public class DetailActivity extends AppCompatActivity implements
 
     private String mMovieTitle;
 
+    private ScrollView mScrollView;
+
     // Constants for logging
     private static final String TAG = DetailActivity.class.getSimpleName();
     private static final int DETAIL_LOADER_ID = 0;
+
+    private static final String DETAIL_SCROLL_POSITION = "DETAIL_SCROLL_POSITION";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +81,13 @@ public class DetailActivity extends AppCompatActivity implements
         Intent intentThatStartedThisActivity = getIntent();
         Movie movie = (Movie) intentThatStartedThisActivity.getSerializableExtra("movie");
 
-        /* Find the image and text views in the Detail Activity*/
+        /* Find the various views in the Detail Activity*/
         mPoster = (ImageView) findViewById(R.id.iv_poster);
         mTitle = (TextView) findViewById(R.id.tv_title);
         mUserRating = (TextView) findViewById(R.id.tv_rating);
         mReleaseDate = (TextView) findViewById(R.id.tv_release_date);
         mOverview = (TextView) findViewById(R.id.tv_overview);
+        mScrollView = (ScrollView) findViewById(R.id.sv_detail_activity);
 
         /* Get the checkbox */
         mFavouriteCheckbox = (CheckBox) findViewById(R.id.cb_favorite);
@@ -160,7 +166,24 @@ public class DetailActivity extends AppCompatActivity implements
         getSupportLoaderManager().restartLoader(DETAIL_LOADER_ID, null, this);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray(DETAIL_SCROLL_POSITION, new int[]{ mScrollView.getScrollX(), mScrollView.getScrollY() });
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray(DETAIL_SCROLL_POSITION);
+        if(position != null){
+            mScrollView.post(new Runnable() {
+                public void run() {
+                    mScrollView.scrollTo(position[0], position[1]);
+                }
+            });
+        }
+    }
 
     @Override
     public void onClick(Trailer trailer) {
@@ -391,8 +414,6 @@ public class DetailActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.v(TAG, "Load finished.");
-        Log.v(TAG, "Cursor: " + DatabaseUtils.dumpCursorToString(data));
         if(data.getCount() > 0){
             mFavouriteCheckbox.setChecked(true);
         }

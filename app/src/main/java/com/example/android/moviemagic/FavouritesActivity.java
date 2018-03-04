@@ -1,8 +1,8 @@
 package com.example.android.moviemagic;
 
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -24,6 +24,10 @@ public class FavouritesActivity extends AppCompatActivity implements
     private FavouriteCursorAdapter mAdapter;
     RecyclerView mRecyclerView;
 
+    private Parcelable mSavedRecyclerLayoutState;
+
+    private static final String BUNDLE_RECYCLER_LAYOUT = "FavouritesActivity.recycler.layout";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,22 @@ public class FavouritesActivity extends AppCompatActivity implements
          created, otherwise the last created loader is re-used.
          */
         getSupportLoaderManager().initLoader(FAVOURITE_LOADER_ID, null, this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, mRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if(savedInstanceState != null){
+            mSavedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
+        }
     }
 
     /**
@@ -104,6 +124,7 @@ public class FavouritesActivity extends AppCompatActivity implements
             public void deliverResult(Cursor data) {
                 mFavouriteData = data;
                 super.deliverResult(data);
+
             }
         };
 
@@ -117,10 +138,8 @@ public class FavouritesActivity extends AppCompatActivity implements
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // Update the data that the adapter uses to create ViewHolders
-        Log.v(TAG, "Load finished.");
-        Log.v(TAG, "Cursor: " + DatabaseUtils.dumpCursorToString(data));
         mAdapter.swapCursor(data);
+        mRecyclerView.getLayoutManager().onRestoreInstanceState(mSavedRecyclerLayoutState);
     }
 
 
@@ -135,4 +154,7 @@ public class FavouritesActivity extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
+
 }
+
+
